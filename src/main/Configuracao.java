@@ -17,8 +17,8 @@ public class Configuracao {
 
     public Configuracao(final String caminhoArquivo) {
         this.caminhoArquivo = caminhoArquivo;
-        configuracao.put("Processado", "C:\\Temp\\Processado");
-        configuracao.put("Não Processado", "C:\\Temp\\NaoProcessado");
+        this.configuracao.put("Processado", Pastas.PROCESSADO.caminho);
+        this.configuracao.put("Não Processado", Pastas.NAO_PROCESSADO.caminho);
     }
 
     public void valida() {
@@ -29,7 +29,7 @@ public class Configuracao {
             if (numeroLinhas > NUMERO_CONFIGURACOES)
                 throw new FinalizaExecucaoException("O número de linhas do arquivo está incorreto!");
             if (numeroLinhas < NUMERO_CONFIGURACOES) {
-                Files.write(path, configuracaoToList());
+                Files.write(path, this.configuracaoToList());
                 return;
             }
             linhas.forEach(this::validaLinhaArquivo);
@@ -40,7 +40,7 @@ public class Configuracao {
 
     private List<String> configuracaoToList() {
         List<String> list = new ArrayList<>(NUMERO_CONFIGURACOES);
-        configuracao.forEach((pastaConfigurada, caminhoPasta) -> {
+        this.configuracao.forEach((pastaConfigurada, caminhoPasta) -> {
             list.add(pastaConfigurada + "=" + caminhoPasta);
         });
         return list;
@@ -53,11 +53,11 @@ public class Configuracao {
                     "A linha " + StringUtil.aspas(linha) + " não é uma configuração válida!");
         final String chave = conteudoLinha[0];
         final String valor = conteudoLinha[1];
-        configuracao.replace(chave, valor);
+        this.configuracao.replace(chave, valor);
     }
 
     public void criaPastasConfiguracao() {
-        configuracao.forEach((configuracaoPasta, caminhoPasta) -> {
+        this.configuracao.forEach((configuracaoPasta, caminhoPasta) -> {
             GerenciadorSistemaArquivos.criaPasta(caminhoPasta);
         });
     }

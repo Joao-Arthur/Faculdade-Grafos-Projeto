@@ -1,27 +1,61 @@
 package main;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+
 import javax.swing.JOptionPane;
 
+import grafo.ProcessaArquivoGrafo;
+import util.StringUtil;
+
 public class ExecucaoGrafos {
-    private final static String TEMP_FOLDER_PATH = "C:\\Temp";
-    private final static String CONFIGURACAO_FOLDER_PATH = "C:\\Temp\\Configuracao";
-    private final static String CONFIG_FILE_PATH = "C:\\Temp\\Configuracao\\config.txt";
     private final Configuracao configuracao;
 
     public ExecucaoGrafos() {
-        configuracao = new Configuracao(CONFIG_FILE_PATH);
+        configuracao = new Configuracao(Pastas.CONFIGURACAO_ARQUIVO.caminho);
     }
 
     private void executaFluxo() {
-        GerenciadorSistemaArquivos.criaPasta(TEMP_FOLDER_PATH);
-        GerenciadorSistemaArquivos.criaPasta(CONFIGURACAO_FOLDER_PATH);
-        GerenciadorSistemaArquivos.criaArquivo(CONFIG_FILE_PATH);
+        GerenciadorSistemaArquivos.criaPasta(Pastas.RAIZ.caminho);
+        GerenciadorSistemaArquivos.criaPasta(Pastas.CONFIGURACAO.caminho);
+        GerenciadorSistemaArquivos.criaArquivo(Pastas.CONFIGURACAO_ARQUIVO.caminho);
         configuracao.valida();
         configuracao.criaPastasConfiguracao();
-        // validaHeaders(); //NN e SP, tamanho caracteres
-        // validaResumoConexoes()
-        // validaRegistroEResumoDeConexoes()
-        // processarArquivo()
+        this.leArquivosRota();
+    }
+
+    private void leArquivosRota() {
+        try {
+            Files.walk(Paths.get(Pastas.RAIZ.caminho), 1).filter(Files::isRegularFile)
+                    .filter((Path arquivo) -> arquivo.getFileName().toString().startsWith("rota"))
+                    .filter((Path arquivo) -> arquivo.getFileName().toString().endsWith(".txt"))
+                    .forEach(this::processaArquivoRota);
+        } catch (IOException e) {
+            throw new FinalizaExecucaoException("Não foi possível ler os arquivos de rota!");
+        }
+    }
+
+    private void processaArquivoRota(Path arquivo) {
+        try {
+            List<String> linhas = Files.readAllLines(arquivo);
+            final ProcessaArquivoGrafo processadorGrafo = new ProcessaArquivoGrafo(arquivo.getFileName().toString(),
+                    linhas);
+            processadorGrafo.processa();
+        } catch (IOException e) {
+            throw new FinalizaExecucaoException(
+                    "Não foi possível ler o arquivo" + StringUtil.aspas(arquivo.toString()) + "!");
+        }
+    }
+
+    public void executa() {
+        try {
+            this.executaFluxo();
+        } catch (FinalizaExecucaoException e) {
+            this.mostraMensagemErroExecucao(e.getMessage());
+        }
     }
 
     private void mostraMensagemErroExecucao(final String mensagem) {
@@ -29,11 +63,4 @@ public class ExecucaoGrafos {
         System.exit(0);
     }
 
-    public void executa() {
-        try {
-            executaFluxo();
-        } catch (FinalizaExecucaoException e) {
-            mostraMensagemErroExecucao(e.getMessage());
-        }
-    }
 }
