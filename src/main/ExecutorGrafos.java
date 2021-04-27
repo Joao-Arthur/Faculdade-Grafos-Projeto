@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import javax.swing.JOptionPane;
 import grafo.ProcessaArquivoGrafo;
-import util.StringUtil;
+import grafo.ValidacaoGrafoException;
 
 public class ExecutorGrafos {
     private final Configuracao configuracao;
@@ -41,10 +41,19 @@ public class ExecutorGrafos {
             List<String> linhas = Files.readAllLines(arquivo);
             final ProcessaArquivoGrafo processadorGrafo = new ProcessaArquivoGrafo(arquivo.getFileName().toString(),
                     linhas);
-            processadorGrafo.processa();
+            try {
+                processadorGrafo.processa();
+                GerenciadorSistemaArquivos.moveArquivo(arquivo, this.configuracao.getPastaProcessado());
+            } catch (ValidacaoGrafoException e) {
+                GerenciadorSistemaArquivos.moveArquivo(arquivo, this.configuracao.getPastaNaoProcessado());
+            }
         } catch (IOException e) {
-            throw new FinalizaExecucaoException(
-                    "Não foi possível ler o arquivo" + StringUtil.aspas(arquivo.toString()) + "!");
+            /*
+             * A exceção é ignorada porque a configuração do ambiente já foi feita, e a
+             * partir desse momento a única ação a ser realizada é mover o arquivo do grafo
+             * porém como não foi possível ler o seu conteúdo, ele não é nem válido nem
+             * inválido
+             */
         }
     }
 

@@ -26,14 +26,27 @@ public class GerenciadorSistemaArquivos {
     }
 
     public static void criaArquivo(final String caminhoArquivo) {
+        final Path path = Paths.get(caminhoArquivo);
         try {
-            final Path path = Paths.get(caminhoArquivo);
             if (Files.exists(path) && Files.isRegularFile(path))
                 return;
             Files.createFile(path);
         } catch (IOException e) {
             throw new FinalizaExecucaoException(
                     "Ocorreu um erro ao criar o arquivo " + StringUtil.aspas(caminhoArquivo) + "!");
+        }
+    }
+
+    public static void moveArquivo(final Path arquivo, final String caminhoPasta) {
+        final Path pasta = Paths.get(caminhoPasta + "\\" + arquivo.getFileName().toString());
+        try {
+            Files.move(arquivo, pasta);
+        } catch (IOException e) {
+            /*
+             * A exceção é ignorada porque esse método é chamado para mover um arquivo já
+             * processado e podem existir outros arquivos ainda a serem processados, ou
+             * seja, o fluxo não pode ser interrompido
+             */
         }
     }
 }

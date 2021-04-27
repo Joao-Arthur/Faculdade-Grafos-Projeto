@@ -14,15 +14,6 @@ public class ProcessaArquivoGrafo {
 	}
 
 	public void processa() {
-		try {
-			this.processaArquivo();
-			// movearquivoparapastasucesso
-		} catch (ValidacaoGrafoException e) {
-			// movearquivoparapastaerro
-		}
-	}
-
-	private void processaArquivo() {
 		if (linhas.stream().anyMatch(linha -> linha.length() < 3))
 			throw new ValidacaoGrafoException("O arquivo possui linhas com conteúdo inválido!");
 
@@ -46,7 +37,6 @@ public class ProcessaArquivoGrafo {
 				.count();
 		final int totalLinhasPesos = (int) elementos.stream().filter(elemento -> elemento instanceof Peso).distinct()
 				.count();
-
 		cabecalho.validaTotalNos(totalNodos);
 		cabecalho.validaSomaPesos(pesoTotal);
 		trailer.validaLinhasConexao(totalLinhasNodos);

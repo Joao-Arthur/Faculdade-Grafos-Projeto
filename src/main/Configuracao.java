@@ -61,4 +61,12 @@ public class Configuracao {
             GerenciadorSistemaArquivos.criaPasta(caminhoPasta);
         });
     }
+
+    public String getPastaProcessado() {
+        return this.configuracao.get("Processado");
+    }
+
+    public String getPastaNaoProcessado() {
+        return this.configuracao.get("Não Processado");
+    }
 }
