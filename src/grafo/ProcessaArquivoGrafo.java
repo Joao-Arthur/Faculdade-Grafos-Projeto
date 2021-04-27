@@ -36,16 +36,19 @@ public class ProcessaArquivoGrafo {
 		final int pesoTotal = elementos.stream().filter(elemento -> elemento instanceof Peso)
 				.map(elemento -> (Peso) elemento).map(peso -> peso.getPeso())
 				.reduce(0, (subTotal, peso) -> subTotal + peso);
-		final int totalNodos = (int)
-
-		Stream.concat(
+		final int totalNodos = (int) Stream.concat(
 				elementos.stream().filter(elemento -> elemento instanceof Conexao).map(elemento -> (Conexao) elemento)
 						.map(conexao -> conexao.getNodoOrigem()),
 				elementos.stream().filter(elemento -> elemento instanceof Conexao).map(elemento -> (Conexao) elemento)
 						.map(conexao -> conexao.getNodoDestino()))
 				.distinct().count();
+		final int totalLinhasNodos = (int) elementos.stream().filter(elemento -> elemento instanceof Conexao).distinct().count();
+		final int totalLinhasPesos = (int) elementos.stream().filter(elemento -> elemento instanceof Peso).distinct().count();
 
-		System.out.println(totalNodos);
+		cabecalho.validaTotalNos(totalNodos);
+		cabecalho.validaSomaPesos(pesoTotal);
+		trailer.validaLinhasConexao(totalLinhasNodos);
+		trailer.validaLinhasPesos(totalLinhasPesos);
 	}
 
 	private void validaNumeroLinhas() {
