@@ -1,6 +1,5 @@
 package grafo;
 
-import main.FinalizaExecucaoException;
 import util.StringUtil;
 
 public class ValidadorNumeroDeLinhas {
@@ -33,19 +32,19 @@ public class ValidadorNumeroDeLinhas {
 
 	private void validaLinhasInvalidas() {
 		if (numeroDeLinhas > 1)
-			throw new FinalizaExecucaoException(
+			throw new ValidacaoGrafoException(
 					"O arquivo " + StringUtil.aspas(nomeArquivo) + " possui linhas inválidas!");
 	}
 
 	private void validaMinimoLinhas() {
 		if (numeroDeLinhas < 1)
-			throw new FinalizaExecucaoException("O arquivo " + StringUtil.aspas(nomeArquivo)
+			throw new ValidacaoGrafoException("O arquivo " + StringUtil.aspas(nomeArquivo)
 					+ " não possui nenhuma linha de " + StringUtil.aspas(this.tipoLinha.getDescricao()) + "!");
 	}
 
 	private void validaMaximoLinhas() {
 		if (numeroDeLinhas > 1)
-			throw new FinalizaExecucaoException("O arquivo " + StringUtil.aspas(nomeArquivo)
+			throw new ValidacaoGrafoException("O arquivo " + StringUtil.aspas(nomeArquivo)
 					+ " só pode ter uma linha de " + StringUtil.aspas(this.tipoLinha.getDescricao()) + "!");
 	}
 }

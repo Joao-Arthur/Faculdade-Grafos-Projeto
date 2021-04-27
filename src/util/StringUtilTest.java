@@ -1,15 +1,23 @@
 package util;
 
-import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
+import junit.framework.TestCase;
 
-public class StringUtilTest {
+@DisplayName("Colocar aspas em uma string deve funcionar")
+public class StringUtilTest extends TestCase {
     @Test
-    @DisplayName("Colocar aspas em um texto deve funcionar")
-    public void testAspas() {
+    public void testAspasNull() {
         assertEquals("\"\"", StringUtil.aspas(null));
+    }
+
+    @Test
+    public void testAspasTextoVazio() {
         assertEquals("\"\"", StringUtil.aspas(""));
+    }
+
+    @Test
+    public void testAspasTexto() {
         assertEquals("\"Yellow Submarine\"", StringUtil.aspas("Yellow Submarine"));
     }
 }

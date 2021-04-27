@@ -1,16 +1,16 @@
 package grafo;
 
 public class ElementoFactory {
-	public static IElemento cria(TipoLinha tipoLinha) {
+	public static IElemento cria(final TipoLinha tipoLinha, final String conteudo) {
 		switch (tipoLinha) {
 			case CABECALHO:
-				return new Cabecalho();
+				return new Cabecalho(conteudo);
 			case CONEXAO:
-				return new Conexao();
+				return new Conexao(conteudo);
 			case PESO:
-				return new Peso();
+				return new Peso(conteudo);
 			case TRAILER:
-				return new Trailer();
+				return new Trailer(conteudo);
 			default:
 				return null;
 		}

@@ -5,16 +5,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-
 import javax.swing.JOptionPane;
-
 import grafo.ProcessaArquivoGrafo;
 import util.StringUtil;
 
-public class ExecucaoGrafos {
+public class ExecutorGrafos {
     private final Configuracao configuracao;
 
-    public ExecucaoGrafos() {
+    public ExecutorGrafos() {
         configuracao = new Configuracao(Pastas.CONFIGURACAO_ARQUIVO.caminho);
     }
 
