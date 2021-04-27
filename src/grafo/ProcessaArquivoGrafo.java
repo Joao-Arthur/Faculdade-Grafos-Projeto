@@ -36,14 +36,16 @@ public class ProcessaArquivoGrafo {
 		final int pesoTotal = elementos.stream().filter(elemento -> elemento instanceof Peso)
 				.map(elemento -> (Peso) elemento).map(peso -> peso.getPeso())
 				.reduce(0, (subTotal, peso) -> subTotal + peso);
-		final int totalNodos = (int) Stream.concat(
-				elementos.stream().filter(elemento -> elemento instanceof Conexao).map(elemento -> (Conexao) elemento)
-						.map(conexao -> conexao.getNodoOrigem()),
-				elementos.stream().filter(elemento -> elemento instanceof Conexao).map(elemento -> (Conexao) elemento)
-						.map(conexao -> conexao.getNodoDestino()))
+		final int totalNodos = (int) Stream
+				.concat(elementos.stream().filter(elemento -> elemento instanceof Conexao)
+						.map(elemento -> (Conexao) elemento).map(conexao -> conexao.getNodoOrigem()),
+						elementos.stream().filter(elemento -> elemento instanceof Conexao)
+								.map(elemento -> (Conexao) elemento).map(conexao -> conexao.getNodoDestino()))
 				.distinct().count();
-		final int totalLinhasNodos = (int) elementos.stream().filter(elemento -> elemento instanceof Conexao).distinct().count();
-		final int totalLinhasPesos = (int) elementos.stream().filter(elemento -> elemento instanceof Peso).distinct().count();
+		final int totalLinhasNodos = (int) elementos.stream().filter(elemento -> elemento instanceof Conexao).distinct()
+				.count();
+		final int totalLinhasPesos = (int) elementos.stream().filter(elemento -> elemento instanceof Peso).distinct()
+				.count();
 
 		cabecalho.validaTotalNos(totalNodos);
 		cabecalho.validaSomaPesos(pesoTotal);
@@ -70,7 +72,6 @@ public class ProcessaArquivoGrafo {
 	private IElemento processaLinha(String linha) {
 		final String tipoLinha = linha.substring(0, 2);
 		final String conteudo = linha.substring(2);
-		System.out.println(tipoLinha + " " + conteudo);
 		return ElementoFactory.cria(TipoLinha.from(tipoLinha), conteudo);
 	}
 
