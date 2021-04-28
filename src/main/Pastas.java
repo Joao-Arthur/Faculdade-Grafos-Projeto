@@ -1,9 +1,11 @@
 package main;
 
 public enum Pastas {
-    RAIZ("C:\\Temp"), CONFIGURACAO(RAIZ.caminho + "\\Configuracao"), CONFIGURACAO_ARQUIVO(
-            CONFIGURACAO.caminho + "\\config.txt"), PROCESSADO(
-                    RAIZ.caminho + "\\Processado"), NAO_PROCESSADO(RAIZ.caminho + "\\NaoProcessado");
+    RAIZ("C:\\Temp"),
+    CONFIGURACAO("C:\\Temp\\Configuracao"),
+    CONFIGURACAO_ARQUIVO("C:\\Temp\\Configuracao\\config.txt"),
+    PROCESSADO("C:\\Temp\\Processado"),
+    NAO_PROCESSADO("C:\\Temp\\NaoProcessado");
 
     public final String caminho;
 

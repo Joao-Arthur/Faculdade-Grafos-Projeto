@@ -17,7 +17,7 @@ public class Peso extends Elemento {
 	void validaConteudoLinha() {
 		final String[] nodos = this.conteudo.split(SEPARADOR_NODOS + "|" + SEPARADOR_PESO);
 		if (nodos.length < 3 || nodos.length > 3)
-			throw new ValidacaoGrafoException("conteúdo da linha inválido na \"conexão\"!");
+			throw new ValidacaoGrafoException("conteúdo da linha inválido no \"peso\"!");
 	}
 
 	public int getPeso() {

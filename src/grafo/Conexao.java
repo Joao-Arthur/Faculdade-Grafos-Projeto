@@ -13,7 +13,7 @@ public class Conexao extends Elemento {
 	}
 
 	@Override
-	public void validaConteudoLinha() {
+	void validaConteudoLinha() {
 		final String[] nodos = this.conteudo.split(SEPARADOR_NODOS);
 		if (nodos.length < 2 || nodos.length > 2)
 			throw new ValidacaoGrafoException("conteúdo da linha inválido na \"conexão\"!");

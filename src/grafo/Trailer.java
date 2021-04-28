@@ -18,10 +18,10 @@ public class Trailer extends Elemento {
 	}
 
 	@Override
-	public void validaConteudoLinha() {
+	void validaConteudoLinha() {
 		final String[] totalLinhas = this.getTotalLinhas();
 		if (totalLinhas.length < 2 || totalLinhas.length > 2)
-			throw new ValidacaoGrafoException("conteúdo da linha inválido na \"conexão\"!");
+			throw new ValidacaoGrafoException("conteúdo da linha inválido no \"trailer\"!");
 	}
 
 	private String[] getTotalLinhas() {

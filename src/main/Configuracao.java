@@ -11,8 +11,8 @@ import java.util.Map;
 import util.StringUtil;
 
 public class Configuracao {
-    private static final int NUMERO_CONFIGURACOES = 2;
-    private final Map<String, String> configuracao = new HashMap<>(NUMERO_CONFIGURACOES);
+    private static final int TOTAL_CONFIGURACOES = 2;
+    private final Map<String, String> configuracao = new HashMap<>(TOTAL_CONFIGURACOES);
     private final String caminhoArquivo;
 
     public Configuracao(final String caminhoArquivo) {
@@ -26,9 +26,9 @@ public class Configuracao {
             final Path path = Paths.get(caminhoArquivo);
             final List<String> linhas = Files.readAllLines(path);
             final int numeroLinhas = linhas.size();
-            if (numeroLinhas > NUMERO_CONFIGURACOES)
+            if (numeroLinhas > TOTAL_CONFIGURACOES)
                 throw new FinalizaExecucaoException("O número de linhas do arquivo está incorreto!");
-            if (numeroLinhas < NUMERO_CONFIGURACOES) {
+            if (numeroLinhas < TOTAL_CONFIGURACOES) {
                 Files.write(path, this.configuracaoToList());
                 return;
             }
@@ -39,7 +39,7 @@ public class Configuracao {
     }
 
     private List<String> configuracaoToList() {
-        List<String> list = new ArrayList<>(NUMERO_CONFIGURACOES);
+        List<String> list = new ArrayList<>(TOTAL_CONFIGURACOES);
         this.configuracao.forEach((pastaConfigurada, caminhoPasta) -> {
             list.add(pastaConfigurada + "=" + caminhoPasta);
         });

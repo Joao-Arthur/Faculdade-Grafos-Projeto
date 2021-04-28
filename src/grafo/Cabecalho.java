@@ -16,7 +16,7 @@ public class Cabecalho extends Elemento {
 	}
 
 	@Override
-	public void validaConteudoLinha() {
+	void validaConteudoLinha() {
 	}
 
 	public void validaTotalNos(int totalNos) {
