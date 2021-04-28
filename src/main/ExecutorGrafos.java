@@ -20,7 +20,7 @@ public class ExecutorGrafos {
         GerenciadorSistemaArquivos.criaPasta(Pastas.RAIZ.caminho);
         GerenciadorSistemaArquivos.criaPasta(Pastas.CONFIGURACAO.caminho);
         GerenciadorSistemaArquivos.criaArquivo(Pastas.CONFIGURACAO_ARQUIVO.caminho);
-        configuracao.valida();
+        configuracao.carrega();
         configuracao.criaPastasConfiguracao();
         this.leArquivosRota();
     }

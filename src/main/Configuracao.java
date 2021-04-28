@@ -4,15 +4,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
 import util.StringUtil;
 
 public class Configuracao {
-    private static final int TOTAL_CONFIGURACOES = 2;
-    private final Map<String, String> configuracao = new HashMap<>(TOTAL_CONFIGURACOES);
+    private final Map<String, String> configuracao = new HashMap<>();
     private final String caminhoArquivo;
 
     public Configuracao(final String caminhoArquivo) {
@@ -21,29 +21,26 @@ public class Configuracao {
         this.configuracao.put("Não Processado", Pastas.NAO_PROCESSADO.caminho);
     }
 
-    public void valida() {
+    public void carrega() {
         try {
             final Path path = Paths.get(caminhoArquivo);
             final List<String> linhas = Files.readAllLines(path);
             final int numeroLinhas = linhas.size();
-            if (numeroLinhas > TOTAL_CONFIGURACOES)
+            if (numeroLinhas > 2)
                 throw new FinalizaExecucaoException("O número de linhas do arquivo está incorreto!");
-            if (numeroLinhas < TOTAL_CONFIGURACOES) {
-                Files.write(path, this.configuracaoToList());
+            if (numeroLinhas < 2) {
+                Files.write(path, this.getConfiguracaoPadrao());
                 return;
             }
             linhas.forEach(this::validaLinhaArquivo);
         } catch (IOException e) {
-            throw new FinalizaExecucaoException("Ocorreu um erro ao validar o conteúdo do arquivo de configuração!");
+            throw new FinalizaExecucaoException("Ocorreu um erro ao carregar o arquivo de configuração!");
         }
     }
 
-    private List<String> configuracaoToList() {
-        List<String> list = new ArrayList<>(TOTAL_CONFIGURACOES);
-        this.configuracao.forEach((pastaConfigurada, caminhoPasta) -> {
-            list.add(pastaConfigurada + "=" + caminhoPasta);
-        });
-        return list;
+    private List<String> getConfiguracaoPadrao() {
+        return this.configuracao.entrySet().stream()
+                .map((entrada) -> (String) entrada.getKey() + "=" + entrada.getValue()).collect(Collectors.toList());
     }
 
     private void validaLinhaArquivo(final String linha) {
@@ -57,9 +54,7 @@ public class Configuracao {
     }
 
     public void criaPastasConfiguracao() {
-        this.configuracao.forEach((configuracaoPasta, caminhoPasta) -> {
-            GerenciadorSistemaArquivos.criaPasta(caminhoPasta);
-        });
+        this.configuracao.values().stream().forEach(GerenciadorSistemaArquivos::criaPasta);
     }
 
     public String getPastaProcessado() {
