@@ -19,11 +19,7 @@ public class Conexao extends Elemento {
             throw new ValidacaoGrafoException("conteúdo da linha inválido na \"conexão\"!");
     }
 
-    public String getNodoOrigem() {
-        return this.conteudo.split(SEPARADOR_NODOS)[0];
-    }
-
-    public String getNodoDestino() {
-        return this.conteudo.split(SEPARADOR_NODOS)[1];
+    public String[] getNodos() {
+        return this.conteudo.split(SEPARADOR_NODOS);
     }
 }

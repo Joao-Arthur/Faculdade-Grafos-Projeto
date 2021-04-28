@@ -1,8 +1,9 @@
 package grafo;
 
 import java.util.List;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class ProcessaArquivoGrafo {
     private final String nomeArquivo;
@@ -16,27 +17,35 @@ public class ProcessaArquivoGrafo {
     public void processa() {
         if (linhas.stream().anyMatch(linha -> linha.length() < 3))
             throw new ValidacaoGrafoException("O arquivo possui linhas com conteúdo inválido!");
-
-        validaNumeroLinhas();
+        
+        this.validaNumeroLinhas();
         final List<Elemento> elementos = this.linhas.stream().map(this::processaLinha).collect(Collectors.toList());
 
-        final Cabecalho cabecalho = (Cabecalho) elementos.stream().filter(elemento -> elemento instanceof Cabecalho)
-                .findFirst().get();
-        final Trailer trailer = (Trailer) elementos.stream().filter(elemento -> elemento instanceof Trailer).findFirst()
-                .get();
-        final int pesoTotal = elementos.stream().filter(elemento -> elemento instanceof Peso)
-                .map(elemento -> (Peso) elemento).map(peso -> peso.getPeso())
-                .reduce(0, (subTotal, peso) -> subTotal + peso);
-        final int totalNodos = (int) Stream
-                .concat(elementos.stream().filter(elemento -> elemento instanceof Conexao)
-                        .map(elemento -> (Conexao) elemento).map(conexao -> conexao.getNodoOrigem()),
-                        elementos.stream().filter(elemento -> elemento instanceof Conexao)
-                                .map(elemento -> (Conexao) elemento).map(conexao -> conexao.getNodoDestino()))
-                .distinct().count();
-        final int totalLinhasNodos = (int) elementos.stream().filter(elemento -> elemento instanceof Conexao).distinct()
-                .count();
-        final int totalLinhasPesos = (int) elementos.stream().filter(elemento -> elemento instanceof Peso).distinct()
-                .count();
+        final Cabecalho cabecalho = (Cabecalho) elementos.stream()
+        		                                         .filter(elemento -> elemento instanceof Cabecalho)
+                                                         .findFirst()
+                                                         .get();
+        final Trailer trailer = (Trailer) elementos.stream()
+        		                                   .filter(elemento -> elemento instanceof Trailer)
+        		                                   .findFirst()
+                                                   .get();
+        final int pesoTotal = elementos.stream()
+        		                        .filter(elemento -> elemento instanceof Peso)
+                                        .map(elemento -> (Peso) elemento).map(peso -> peso.getPeso())
+                                        .reduce(0, (subTotal, peso) -> subTotal + peso);
+        final int totalNodos = (int) elementos.stream()
+        	                        	      .filter(elemento -> elemento instanceof Conexao)
+                                              .map(elemento -> (Conexao) elemento).map(conexao -> Arrays.asList(conexao.getNodos()))
+                                              .flatMap(Collection::stream)
+                                              .distinct()
+                                              .count();
+        final int totalLinhasNodos = (int) elementos.stream()
+        		                                    .filter(elemento -> elemento instanceof Conexao).distinct()
+                                                    .count();
+        final int totalLinhasPesos = (int) elementos.stream()
+        		                                    .filter(elemento -> elemento instanceof Peso)
+        		                                    .distinct()
+                                                    .count();
         cabecalho.validaTotalNos(totalNodos);
         cabecalho.validaSomaPesos(pesoTotal);
         trailer.validaLinhasConexao(totalLinhasNodos);
