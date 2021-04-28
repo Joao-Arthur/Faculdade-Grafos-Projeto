@@ -1,25 +1,20 @@
 package grafo;
 
-public class Trailer implements IElemento {
-	public static final int TAMANHO_MAXIMO = 5;
-	private final String conteudo;
+public class Trailer extends Elemento {
 	private final int linhasConexao;
 	private final int linhasPeso;
 	private static final String SEPARADOR_TOTAL_LINHAS = ";";
 
 	public Trailer(final String conteudo) {
-		this.conteudo = conteudo;
-		this.validaTamanhoConteudo();
-		this.validaConteudoLinha();
+		super(conteudo);
 		final String[] totalLinhas = this.getTotalLinhas();
 		this.linhasConexao = Integer.parseInt(totalLinhas[0]);
 		this.linhasPeso = Integer.parseInt(totalLinhas[1]);
 	}
 
 	@Override
-	public void validaTamanhoConteudo() {
-		if (this.conteudo.length() > TAMANHO_MAXIMO)
-			throw new ValidacaoGrafoException("Tamanho da linha excedido no \"trailer\"!");
+	int getTamanhoMaximo() {
+		return 5;
 	}
 
 	@Override

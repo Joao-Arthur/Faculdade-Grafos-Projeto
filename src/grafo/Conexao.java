@@ -1,20 +1,15 @@
 package grafo;
 
-public class Conexao implements IElemento {
-	public static final int TAMANHO_MAXIMO = 5;
-	private final String conteudo;
+public class Conexao extends Elemento {
 	private static final String SEPARADOR_NODOS = "=";
 
 	public Conexao(final String conteudo) {
-		this.conteudo = conteudo;
-		this.validaTamanhoConteudo();
-		this.validaConteudoLinha();
+		super(conteudo);
 	}
 
 	@Override
-	public void validaTamanhoConteudo() {
-		if (this.conteudo.length() > TAMANHO_MAXIMO)
-			throw new ValidacaoGrafoException("Tamanho da linha excedido na \"conexão\"!");
+	int getTamanhoMaximo() {
+		return 5;
 	}
 
 	@Override

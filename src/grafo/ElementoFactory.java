@@ -1,7 +1,7 @@
 package grafo;
 
 public class ElementoFactory {
-	public static IElemento cria(final TipoLinha tipoLinha, final String conteudo) {
+	public static Elemento cria(final TipoLinha tipoLinha, final String conteudo) {
 		switch (tipoLinha) {
 			case CABECALHO:
 				return new Cabecalho(conteudo);

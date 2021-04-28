@@ -1,23 +1,18 @@
 package grafo;
 
-public class Cabecalho implements IElemento {
-	public static final int TAMANHO_MAXIMO = 100001;
-	private final String conteudo;
+public class Cabecalho extends Elemento {
 	private final int totalNos;
 	private final int somaPesos;
 
 	public Cabecalho(final String conteudo) {
-		this.conteudo = conteudo;
-		this.validaTamanhoConteudo();
-		this.validaConteudoLinha();
+		super(conteudo);
 		this.totalNos = Integer.parseInt(conteudo.substring(0, 2));
 		this.somaPesos = Integer.parseInt(conteudo.substring(2));
 	}
 
 	@Override
-	public void validaTamanhoConteudo() {
-		if (this.conteudo.length() > TAMANHO_MAXIMO)
-			throw new ValidacaoGrafoException("Tamanho da linha excedido no \"cabeçalho\"!");
+	int getTamanhoMaximo() {
+		return 100001;
 	}
 
 	@Override

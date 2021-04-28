@@ -18,7 +18,7 @@ public class ProcessaArquivoGrafo {
 			throw new ValidacaoGrafoException("O arquivo possui linhas com conteúdo inválido!");
 
 		validaNumeroLinhas();
-		final List<IElemento> elementos = this.linhas.stream().map(this::processaLinha).collect(Collectors.toList());
+		final List<Elemento> elementos = this.linhas.stream().map(this::processaLinha).collect(Collectors.toList());
 
 		final Cabecalho cabecalho = (Cabecalho) elementos.stream().filter(elemento -> elemento instanceof Cabecalho)
 				.findFirst().get();
@@ -59,7 +59,7 @@ public class ProcessaArquivoGrafo {
 		validador.valida();
 	}
 
-	private IElemento processaLinha(String linha) {
+	private Elemento processaLinha(String linha) {
 		final String tipoLinha = linha.substring(0, 2);
 		final String conteudo = linha.substring(2);
 		return ElementoFactory.cria(TipoLinha.from(tipoLinha), conteudo);
