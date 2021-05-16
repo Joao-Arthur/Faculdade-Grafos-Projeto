@@ -1,6 +1,6 @@
 package grafo;
 
-public class ElementoFactory {
+public interface ElementoFactory {
     public static Elemento cria(final TipoLinha tipoLinha, final String conteudo) {
         switch (tipoLinha) {
             case CABECALHO:

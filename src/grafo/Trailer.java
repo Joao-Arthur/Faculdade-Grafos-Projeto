@@ -7,7 +7,7 @@ public class Trailer extends Elemento {
 
     public Trailer(final String conteudo) {
         super(conteudo);
-        final String[] totalLinhas = this.getTotalLinhas();
+        final var totalLinhas = this.getTotalLinhas();
         this.linhasConexao = Integer.parseInt(totalLinhas[0]);
         this.linhasPeso = Integer.parseInt(totalLinhas[1]);
     }
@@ -19,7 +19,7 @@ public class Trailer extends Elemento {
 
     @Override
     void validaConteudoLinha() {
-        final String[] totalLinhas = this.getTotalLinhas();
+        final var totalLinhas = this.getTotalLinhas();
         if (totalLinhas.length < 2 || totalLinhas.length > 2)
             throw new ValidacaoGrafoException("conteúdo da linha inválido no \"trailer\"!");
     }

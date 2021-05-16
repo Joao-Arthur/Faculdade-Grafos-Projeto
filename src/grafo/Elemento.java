@@ -7,7 +7,7 @@ public abstract class Elemento {
 
     abstract void validaConteudoLinha();
 
-    public Elemento(final String conteudo) {
+    Elemento(final String conteudo) {
         this.conteudo = conteudo;
         this.validaTamanhoConteudo();
         this.validaConteudoLinha();

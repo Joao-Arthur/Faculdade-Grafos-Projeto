@@ -13,15 +13,15 @@ public class ExecutorGrafos {
     private final Configuracao configuracao;
 
     public ExecutorGrafos() {
-        configuracao = new Configuracao(Pastas.CONFIGURACAO_ARQUIVO.caminho);
+        this.configuracao = new Configuracao(Pastas.CONFIGURACAO_ARQUIVO.caminho);
     }
 
     private void executaFluxo() {
         GerenciadorSistemaArquivos.criaPasta(Pastas.RAIZ.caminho);
         GerenciadorSistemaArquivos.criaPasta(Pastas.CONFIGURACAO.caminho);
         GerenciadorSistemaArquivos.criaArquivo(Pastas.CONFIGURACAO_ARQUIVO.caminho);
-        configuracao.carrega();
-        configuracao.criaPastasConfiguracao();
+        this.configuracao.carrega();
+        this.configuracao.criaPastasConfiguracao();
         this.leArquivosRota();
     }
 
@@ -39,7 +39,7 @@ public class ExecutorGrafos {
     private void processaArquivoRota(Path arquivo) {
         try {
             List<String> linhas = Files.readAllLines(arquivo);
-            final ProcessaArquivoGrafo processadorGrafo = new ProcessaArquivoGrafo(arquivo.getFileName().toString(),
+            final var processadorGrafo = new ProcessaArquivoGrafo(arquivo.getFileName().toString(),
                     linhas);
             try {
                 processadorGrafo.processa();

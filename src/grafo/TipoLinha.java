@@ -1,7 +1,10 @@
 package grafo;
 
 public enum TipoLinha {
-    CABECALHO, CONEXAO, PESO, TRAILER;
+    CABECALHO,
+    CONEXAO,
+    PESO,
+    TRAILER;
 
     public static TipoLinha from(final String valor) {
         switch (valor) {

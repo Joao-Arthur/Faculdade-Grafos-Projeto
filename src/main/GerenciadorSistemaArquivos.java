@@ -7,9 +7,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import util.StringUtil;
 
-public class GerenciadorSistemaArquivos {
+public interface GerenciadorSistemaArquivos {
     public static void criaPasta(final String caminhoPasta) {
-        final Path path = Paths.get(caminhoPasta);
+        final var path = Paths.get(caminhoPasta);
         try {
             if (Files.exists(path) && Files.isDirectory(path))
                 return;
@@ -26,7 +26,7 @@ public class GerenciadorSistemaArquivos {
     }
 
     public static void criaArquivo(final String caminhoArquivo) {
-        final Path path = Paths.get(caminhoArquivo);
+        final var path = Paths.get(caminhoArquivo);
         try {
             if (Files.exists(path) && Files.isRegularFile(path))
                 return;
@@ -38,7 +38,7 @@ public class GerenciadorSistemaArquivos {
     }
 
     public static void moveArquivo(final Path arquivo, final String caminhoPasta) {
-        final Path pasta = Paths.get(caminhoPasta + "\\" + arquivo.getFileName().toString());
+        final var pasta = Paths.get(caminhoPasta + "\\" + arquivo.getFileName().toString());
         try {
             Files.move(arquivo, pasta);
         } catch (IOException e) {

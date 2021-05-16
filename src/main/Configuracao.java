@@ -2,13 +2,11 @@ package main;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import util.StringUtil;
 
 public class Configuracao {
@@ -23,7 +21,7 @@ public class Configuracao {
 
     public void carrega() {
         try {
-            final Path path = Paths.get(caminhoArquivo);
+            final var path = Paths.get(caminhoArquivo);
             final List<String> linhas = Files.readAllLines(path);
             final int numeroLinhas = linhas.size();
             if (numeroLinhas > 2)
@@ -40,7 +38,7 @@ public class Configuracao {
 
     private List<String> getConfiguracaoPadrao() {
         return this.configuracao.entrySet().stream()
-                .map((entrada) -> (String) entrada.getKey() + "=" + entrada.getValue()).collect(Collectors.toList());
+                .map(entrada -> entrada.getKey() + "=" + entrada.getValue()).collect(Collectors.toList());
     }
 
     private void validaLinhaArquivo(final String linha) {
